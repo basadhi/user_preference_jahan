@@ -256,7 +256,7 @@ async function loadPreferences() {
     loadFromLocalStorage();
     
     // Then try to load from server to get the latest preferences
-    const response = await apiService.get('/api/preferences/');
+    const response = await apiService.get('/preferences/');
     if (response.data) {
       const serverPreferences = response.data;
       

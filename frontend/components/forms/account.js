@@ -22,8 +22,9 @@ export const AccountForm = {
           // Sidebar navigation
           view: "sidebar",
           id: "account_sidebar",
-          width: 280,
-          minWidth: 200,
+          width: 200,
+          responsive: true,
+          minWidth: 100,
           maxWidth: 350,
           gravity: 0.3,
           css: "modern-sidebar",
@@ -93,7 +94,7 @@ export const AccountForm = {
                                   return `
                                     <div class="profile-image-wrapper">
                                       <div class="profile-image-container">
-                                        <img id='profile-img' src='/api/placeholder/120/120' class="profile-image">
+                                        <img id='profile-img'  class="profile-image">
                                         <div class="profile-image-overlay">
                                           <i class="wxi-camera"></i>
                                           <span>Change</span>

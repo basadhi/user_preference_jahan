@@ -19,9 +19,12 @@ export async function authenticateUser(email, password) {
         lastName: response.user.last_name,
         username: response.user.username
       };
-      
       localStorage.setItem('loggedUser', JSON.stringify(userData));
-      return userData;
+      localStorage.setItem('preferences', JSON.stringify(response.preferences));
+
+      return {user: userData, 
+            token: response.token,
+            preferences: response.preferences};
     }
     return null;
   } catch (error) {

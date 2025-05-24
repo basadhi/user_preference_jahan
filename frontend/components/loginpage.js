@@ -150,30 +150,36 @@ export const LoginPage = {
                   text: "Login successful!",
                   expire: 2000
                 });
-                
-                // Store user data for session
+
                 sessionStorage.setItem("currentLoggedin", JSON.stringify({ 
                   email: user.email || values.email 
                 }));
-                localStorage.setItem("loggedUser", user.id || user.pk || user.user_id);
-                
-                // Store auth token if available
+
+                localStorage.setItem("loggedUser", JSON.stringify({
+                      "id": user.id,
+                      "username": user.username,
+                      "email": user.email,
+                      "firstName": user.firstName,
+                      "lastName": user.lastName
+                      // Note: No preferences in current response
+                  }));
+
+                localStorage.setItem("loginResponse", JSON.stringify(user));
                 if (user.token || user.auth_token || user.access_token) {
-                  localStorage.setItem("authToken", user.token || user.auth_token || user.access_token);
-                }
-                
-                // Store preferences if available
+                        localStorage.setItem("authToken", user.token || user.auth_token || user.access_token);
+                      }
+      
+
+                try {
+    
+                const preferences = await fetchUserPreferences(user.id);
                 if (preferences) {
                   localStorage.setItem("preferences", JSON.stringify(preferences));
                 }
-                
-                // Initialize theme preferences after login
-                try {
-                  await initializePreferences();
-                  console.log("Preferences initialized successfully");
-                } catch (prefError) {
-                  console.warn("Failed to initialize preferences:", prefError);
-                }
+              } catch (error) {
+                console.warn("Failed to fetch preferences:", error);
+              }
+               
                 
                 // Navigate to home page after a short delay
                 setTimeout(() => {

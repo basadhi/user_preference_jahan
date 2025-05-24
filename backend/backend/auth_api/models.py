@@ -8,8 +8,6 @@ class UserProfile(models.Model):
 
 class UserPreferences(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='preferences')
-
-    name = models.CharField(max_length=20, default=)
     
     # Theme Settings
     theme = models.CharField(max_length=20, default='light')

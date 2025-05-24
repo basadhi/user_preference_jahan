@@ -160,8 +160,8 @@ button.webix_primary:hover {
 
 /* Header banner */
 .modern-header-banner {
-    background: linear-gradient(135deg, #4776E6 0%, #8E54E9 100%);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #e2e5ee 0%, #e8e4ee 100%);
+    box-shadow: 0 4px 12px rgba(241, 234, 234, 0.1);
     position: relative;
     overflow: hidden;
     height: 400px !important;
@@ -169,12 +169,12 @@ button.webix_primary:hover {
 
 /* Dark theme header banner */
 .dark-theme .modern-header-banner {
-    background: linear-gradient(135deg, #2d2d2d 0%, var(--webix-primary) 100%);
+    background: linear-gradient(135deg, #e0dcdc 0%, var(--webix-primary) 100%);
 }
 
 /* High contrast header banner */
 .high-contrast-theme .modern-header-banner {
-    background: linear-gradient(135deg, #000000 0%, var(--webix-primary) 100%);
+    background: linear-gradient(135deg, #eee5e5 0%, var(--webix-primary) 100%);
     border: 2px solid var(--webix-primary);
 }
 
