@@ -61,12 +61,20 @@ const DEFAULT_PREFERENCES = {
   animations_enabled: true
 };
 
-function applyPreferences(preferences) {
-  applyThemeMode(preferences.theme);
-  applyFontFamily(preferences.font_family);
-  applyPrimaryColor(preferences.primary_color);
-  toggleAnimations(preferences.animations_enabled);
+export function applyPreferences(prefs) {
+  document.body.setAttribute("data-theme", prefs.theme);
+  document.body.style.fontFamily = prefs.font_family || "Arial, sans-serif";
+
+  const root = document.documentElement;
+  root.style.setProperty("--primary-color", prefs.primary_color || "#1CA1C1");
+
+  if (prefs.animations_enabled) {
+    document.body.classList.remove("no-animations");
+  } else {
+    document.body.classList.add("no-animations");
+  }
 }
+
 
 export const ThemeForm = {
 
@@ -342,11 +350,16 @@ async function savePreferences() {
     
     // Apply preferences immediately
     applyPreferences(preferences);
+    const storedPrefs = JSON.parse(localStorage.getItem("preferences"));
+    const prefId = storedPrefs?.id;
     
     // Save to server
     await apiService.put('/preference/', preferences, {
       headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
     });
+
+    localStorage.setItem("preferences", JSON.stringify({ ...storedPrefs, ...preferences }));
+
     webix.message({ type: "success", text: "Preferences saved successfully!" });
   } catch (error) {
     console.error('Error saving preferences:', error);

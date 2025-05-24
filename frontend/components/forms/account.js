@@ -2,6 +2,8 @@ import { apiService } from '../utils/apiService.js';
 
 // Get token from localStorage
 const getToken = () => localStorage.getItem("authToken");
+window.changedFields = new Set();
+
 
 export const AccountForm = {
   id: "account_settings_cell",
@@ -91,10 +93,13 @@ export const AccountForm = {
                                 view: "template",
                                 id: "profile_image_container",
                                 template: function () {
-                                  return `
+                                    const existingImage = localStorage.getItem("profileImage") || window.profileImageData;
+                                    const defaultImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 24 24' fill='%23ccc'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E";
+                                    const imageSrc = existingImage || defaultImage;
+                                    return `
                                     <div class="profile-image-wrapper">
                                       <div class="profile-image-container">
-                                        <img id='profile-img'  class="profile-image">
+                                        <img id='profile-img'  class="profile-image" src="${imageSrc}" alt="Profile Image" onerror="this.onerror=null; this.src='${defaultImage}';">
                                         <div class="profile-image-overlay">
                                           <i class="wxi-camera"></i>
                                           <span>Change</span>
@@ -127,12 +132,17 @@ export const AccountForm = {
                                     const reader = new FileReader();
                                     reader.onload = function (e) {
                                       document.getElementById("profile-img").src = e.target.result;
-                                      // Store image data for saving
-                                      window.profileImageData = e.target.result;
+                                      const imageData = e.target.result; 
+                                     
+
+                                    localStorage.setItem("profileImage", imageData);
+                                    window.profileImageData = e.target.result;
                                       $$("profile_image_container").refresh();
                                       showChangeIndicator("profile_image");
                                     };
+                                    refreshUserInfo();
                                     reader.readAsDataURL(file.file);
+                                    webix.message({ type: "success", text: "Image uploaded successfully!" });
                                     return false;
                                   }
                                 }
@@ -177,6 +187,12 @@ export const AccountForm = {
                                 on: {
                                   onChange: function() {
                                     showChangeIndicator("display_name");
+                                    const currentUser = JSON.parse(localStorage.getItem("loggedUser")) || {};
+                                    currentUser.displayName = this.getValue();
+                                    localStorage.setItem("loggedUser", JSON.stringify(currentUser));
+                                    currentUser.displayName = newValue;
+                                    localStorage.setItem("loggedUser", JSON.stringify(currentUser));
+
                                   }
                                 }
                               },
@@ -185,6 +201,7 @@ export const AccountForm = {
                                 label: "Email Address",
                                 name: "email",
                                 type: "email",
+                                value: JSON.parse(sessionStorage.getItem("currentLoggedin"))?.email || "",
                                 disabled: true,
                                 css: "modern-input disabled-field",
                                 tooltip: "Email cannot be changed. Contact support if needed."
@@ -740,16 +757,16 @@ async function saveProfile() {
 
     const form = $$("profile_form");
     if (!form.validate()) {
-      webix.message({ type: "error", text: "Please fix the errors in the form" });
+      webix.message({ type: "error", text: "Please fill all the fields!" });
       return;
     }
     
     const values = form.getValues();
     
     // Add profile image if uploaded
-    if (window.profileImageData) {
-      values.profile_image = window.profileImageData;
-    }
+    // if (window.profileImageData) {
+    //   values.profile_image = window.profileImageData;
+    // }
 
     await apiService.put('/preference/', values, {
       headers: {

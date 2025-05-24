@@ -335,15 +335,19 @@ export const HomeUI = {
                         const isLoggedIn = isUserLoggedIn();
                         
                         if (isLoggedIn && loggedUser) {
+                            const profileImage = localStorage.getItem("profileImage") || 
+
+                            window.profileImageData || 
+                          "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&auto=format";
                             return `
                                 <div class="user-info">
                                     <div class="user-avatar">
-                                        <img class="avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&auto=format" 
+                                        <img class="avatar" src="${profileImage}"  
                                          alt="User Avatar" 
                                          style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #e0e0e0;"/>
                                     </div>
                                     <div class="user-details">
-                                        <span class="user-name">${loggedUser.first_name || loggedUser.username || 'User'}</span>
+                                        <span class="user-name">${loggedUser.displayName || loggedUser.firstName || loggedUser.lastName || 'User'}</span>
                                         <span class="user-status">Online</span>
                                     </div>
                                 </div>
@@ -459,7 +463,7 @@ export const HomeUI = {
                     <div class="header-text">
                         <h1 class="header-title">
                             ${isLoggedIn && loggedUser 
-                                ? `Welcome back, ${loggedUser.firstName || loggedUser.username || 'User' || userProfile.full_name }!` 
+                                ? `Welcome back, ${loggedUser.displayName||loggedUser.firstName || loggedUser.username || 'User' || userProfile.full_name }!` 
                                 : "Welcome to User Preferences!"
                             }
                         </h1>
@@ -546,12 +550,16 @@ export const HomeUI = {
                                             }
                                         ]
                                     },
-                                    // User Dashboard (shown when logged in)
+                                   
                                     {
                                         view: "template",
                                         id: "user_dashboard_card",
                                         hidden: !isUserLoggedIn(),
                                         css: "modern-dashboard-card",
+                                        height: 300,
+                                        scroll: "y",
+                                        minHeight: 300,
+                                        maxHeight: 400,
                                         template: function() {
                                             const loggedUser = getLoggedUserData();
                                             const isLoggedIn = isUserLoggedIn();
@@ -569,7 +577,7 @@ export const HomeUI = {
                                                         <div class="dashboard-avatar">${userInitials}</div>
                                                         <div class="dashboard-user-info">
                                                             <h3>${userName}</h3>
-                                                            <p>${userEmail}</p>
+                                                            <p>${userName}</p>
                                                         </div>
                                                     </div>
                                                     
@@ -612,16 +620,16 @@ export const HomeUI = {
                                             `;
                                         }
                                     },
-                                    {}  // Flexible spacer
+                                    {}  
                                 ]
                             },
-                            // Spacing between columns
+                          
                             { width: 32 },
-                            // Right Column - Info Cards (flexible width)
+                           
                             {
                                 view: "layout",
                                 rows: [
-                                    // Quick Info Card
+                                   
                                     {
                                         view: "template",
                                         id: "info_card_template",
@@ -647,9 +655,9 @@ export const HomeUI = {
                                             `;
                                         }
                                     },
-                                    // Spacing between cards
+                                   
                                     { height: 2 },
-                                    // Features Card
+                                    
                                     {
                                         view: "template",
                                         height: 180,
@@ -671,7 +679,7 @@ export const HomeUI = {
                                             </div>
                                         `
                                     },
-                                    {}  // Flexible spacer for bottom
+                                    {}  
                                 ]
                             }
                         ]
@@ -682,15 +690,14 @@ export const HomeUI = {
     ],
     on: {
         onShow: function() {
-            // Update UI based on current login status
+            
             updateUIForLoginStatus();
             
-            // Add responsive behavior
             this.adjustLayout();
             webix.event(window, "resize", () => this.adjustLayout());
         },
         onAfterShow: function() {
-            // Double-check login status after view is fully shown
+         
             setTimeout(() => {
                 updateUIForLoginStatus();
             }, 100);
@@ -699,9 +706,9 @@ export const HomeUI = {
     adjustLayout: function() {
         const width = window.innerWidth;
         
-        // Responsive adjustments for mobile/tablet
+       
         if (width < 768) {
-            // Mobile layout adjustments
+          
             const logoTemplate = $("app_logo");
             if (logoTemplate) {
                 logoTemplate.define("width", 160);
@@ -714,7 +721,7 @@ export const HomeUI = {
                 userInfo.refresh();
             }
         } else if (width < 1024) {
-            // Tablet layout adjustments
+           
             const logoTemplate = $("app_logo");
             if (logoTemplate) {
                 logoTemplate.define("width", 200);
@@ -727,7 +734,7 @@ export const HomeUI = {
                 userInfo.refresh();
             }
         } else {
-            // Desktop layout - restore full widths
+            
             const logoTemplate = $("app_logo");
             if (logoTemplate) {
                 logoTemplate.define("width", 240);
@@ -743,15 +750,25 @@ export const HomeUI = {
     }
 };
 
-// Listen for storage changes (when user logs in/out in another tab)
+
 if (typeof window !== 'undefined') {
     window.addEventListener('storage', function(e) {
         if (e.key === 'authToken' || e.key === 'loggedUser') {
-            // Update UI when storage changes
+            
             updateUIForLoginStatus();
         }
     });
     
-    // Make the update function globally available for use in other components
+    
     window.updateHomeUIForLoginStatus = updateUIForLoginStatus;
 }
+export function refreshUserInfo() {
+  if ($$("top_nav_user_info")) {
+    $$("top_nav_user_info").refresh();
+  }
+}
+
+
+window.addEventListener('profileUpdated', function(event) {
+  refreshUserInfo();
+});

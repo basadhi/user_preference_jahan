@@ -1,5 +1,5 @@
 import { authenticateUser } from "./utils/dataService.js";
-// import { initializePreferences } from "../components/forms/theme.js";
+import {applyPreferences} from "./forms/theme.js";
 
 if (!window.showView) {
     window.showView = function(viewId) {
@@ -151,6 +151,18 @@ export const LoginPage = {
                   expire: 2000
                 });
 
+                const savedPrefs = preferences;
+                      if (savedPrefs) {
+                        applyPreferences(savedPrefs);
+
+                        // Optional: save individual keys in localStorage if used elsewhere
+                        localStorage.setItem("theme", savedPrefs.theme);
+                        localStorage.setItem("fontFamily", savedPrefs.font_family);
+                        localStorage.setItem("primaryColor", savedPrefs.primary_color);
+                        localStorage.setItem("animations", savedPrefs.animations_enabled.toString());
+                      }
+
+
                 sessionStorage.setItem("currentLoggedin", JSON.stringify({ 
                   email: user.email || values.email 
                 }));
@@ -161,7 +173,7 @@ export const LoginPage = {
                       "email": user.email,
                       "firstName": user.firstName,
                       "lastName": user.lastName
-                      // Note: No preferences in current response
+                      
                   }));
 
                 localStorage.setItem("loginResponse", JSON.stringify(user));
