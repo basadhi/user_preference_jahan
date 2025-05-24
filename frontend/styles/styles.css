@@ -1,0 +1,330 @@
+:root {
+    /* Light theme variables */
+    --bg-color: #ffffff;
+    --bg-secondary: #e5edf5;
+    --text-color: #212529;
+    --text-secondary: #6c757d;
+    --test-btn-color: #28a745;
+    --nav-text-color: #495057;
+    --login-des-color: #343a40;
+    --webix-font-family: 'Arial', sans-serif;
+    --webix-primary: #667eea;
+    --border-color: #dee2e6;
+}
+
+/* Dark theme variables */
+.dark-theme {
+    --bg-color: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-color: #f0f6fc;
+    --text-secondary: #b3b3b3;
+    --test-btn-color: #fd7e14;
+    --nav-text-color: #ffffff;
+    --login-des-color: #f0f0f0;
+    --webix-primary: #7c3aed;
+    --border-color: #495057;
+}
+
+/* High contrast theme variables */
+.high-contrast-theme {
+    --bg-color: #000000;
+    --bg-secondary: #1a1a1a;
+    --text-color: #fdfdfd;
+    --text-secondary: #ffff00;
+    --test-btn-color: #00ff00;
+    --nav-text-color: #ffffff;
+    --login-des-color: #ffffff;
+    --webix-primary: #00ffff;
+    --border-color: #ffffff;
+}
+
+/* Base font family application */
+body,
+.webix_view,
+.webix_el_box,
+.webix_el_text,
+.webix_el_label {
+    font-family: var(--webix-font-family);
+}
+
+/* Base view styling */
+.webix_view {
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+}
+
+/* Button styling */
+.test-btn .webix_button {
+    background-color: var(--test-btn-color) !important;
+    color: #ffffff !important;
+    border: none;
+    border-radius: 8px;
+}
+
+.test-btn .webix_button:hover {
+    opacity: 1.0;
+}
+
+/* Navigation styling */
+.navContainer .webix_el_button .webix_button {
+    color: var(--nav-text-color) !important;
+    background: transparent !important;
+}
+
+.navContainer .webix_el_button .webix_button:hover {
+    background: var(--bg-secondary) !important;
+}
+
+/* Login container styling */
+.login-container .description {
+    color: var(--login-des-color) !important;
+}
+
+/* Header styling */
+.webix_header {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Primary button styling */
+button.webix_primary {
+    background-color: var(--webix-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button.webix_primary:hover {
+    opacity: 0.9;
+}
+
+/* List item styling */
+.webix_list_item {
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+}
+.webix_font_family {
+    font-family: var(--webix-font-family) !important;
+    color: var(--text-color) !important;
+}
+
+.webix_list_item.webix_selected {
+    background-color: var(--webix-primary) !important;
+    color: #fff !important;
+}
+
+/* Toolbar styling */
+.webix_toolbar {
+    background-color: var(--bg-secondary) !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Transparent button */
+.transparent-button {
+    background: transparent !important;
+    border: none !important;
+    color: var(--text-color) !important;
+}
+
+.transparent-button:hover {
+    background: var(--bg-secondary) !important;
+}
+
+/* App header */
+.app-header {
+    background: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-color);
+    text-align: center;
+}
+
+/* MDI icons */
+.mdi {
+    font-size: 24px;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+/* Modern home UI */
+.modern-home-ui {
+    background-color: var(--bg-color);
+    font-family: var(--webix-font-family);
+}
+
+/* Header banner */
+.modern-header-banner {
+    background: linear-gradient(135deg, #4776E6 0%, #8E54E9 100%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    height: 400px !important;
+}
+
+/* Dark theme header banner */
+.dark-theme .modern-header-banner {
+    background: linear-gradient(135deg, #2d2d2d 0%, var(--webix-primary) 100%);
+}
+
+/* High contrast header banner */
+.high-contrast-theme .modern-header-banner {
+    background: linear-gradient(135deg, #000000 0%, var(--webix-primary) 100%);
+    border: 2px solid var(--webix-primary);
+}
+
+.header-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.header-content-inner {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+}
+
+.avatar-container {
+    margin-right: 30px;
+    flex-shrink: 0;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+    background-color: #fff;
+}
+
+/* High contrast avatar */
+.high-contrast-theme .avatar {
+    border: 4px solid var(--webix-primary);
+}
+
+.header-text {
+    flex: 1;
+    color: white;
+}
+
+.header-title {
+    font-size: 36px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.subtitle {
+    font-size: 20px;
+    font-weight: 300;
+    margin: 0;
+    opacity: 0.9;
+    color: white;
+}
+
+/* High contrast subtitle */
+.high-contrast-theme .subtitle {
+    color: var(--text-secondary);
+}
+
+.top-nav-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.top-nav-btn:active {
+    transform: translateY(0) !important;
+}
+
+/* Form inputs */
+.webix_el_text input,
+.webix_el_combo input {
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.webix_el_text input:focus,
+.webix_el_combo input:focus {
+    border-color: var(--webix-primary) !important;
+}
+
+/* Dark theme specific text colors */
+.dark-theme .webix_view,
+.dark-theme .webix_list_item,
+.dark-theme .webix_el_label,
+.dark-theme .webix_button {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .webix_list_item:hover {
+    background-color: var(--bg-secondary) !important;
+}
+
+.dark-theme .webix_toolbar {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-color) !important;
+}
+
+/* High contrast theme specific text colors */
+.high-contrast-theme .webix_view,
+.high-contrast-theme .webix_list_item,
+.high-contrast-theme .webix_el_label,
+.high-contrast-theme .webix_button {
+    color: var(--text-color) !important;
+}
+
+.high-contrast-theme .webix_list_item:hover {
+    background-color: var(--bg-secondary) !important;
+}
+
+.high-contrast-theme .webix_toolbar {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-color) !important;
+}
+
+/* High contrast borders */
+.high-contrast-theme .webix_view,
+.high-contrast-theme .webix_list_item,
+.high-contrast-theme input {
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .header-content-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .avatar-container {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .header-title {
+        font-size: 28px;
+    }
+
+    .subtitle {
+        font-size: 18px;
+    }
+}

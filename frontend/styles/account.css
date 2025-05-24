@@ -1,0 +1,118 @@
+/* General form wrapper */
+.account-settings {
+    background-color: #f4f7fa;
+    padding: 20px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Sidebar */
+  .account-sidebar {
+    background: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    padding-top: 20px;
+    min-width: 200px;
+  }
+  
+  .webix_sidebar .webix_selected {
+    background-color: #007acc !important;
+    color: #fff !important;
+  }
+  .webix_sidebar .webix_sidebar_icon {
+    color: #007acc;
+  }
+  .webix_sidebar .webix_selected .webix_sidebar_icon {
+    color: white;
+  }
+  
+  /* Content area */
+  .account-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    margin-left: 20px;
+  }
+  
+  /* Section headers */
+  .form-header {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Modern form styles */
+  .modern-form {
+    max-width: 600px;
+  }
+  
+  .form-field .webix_input_inner {
+    border-radius: 6px;
+    background-color: #f9fafb;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  /* Buttons */
+  .save-button {
+    background-color: #007acc !important;
+    color: white !important;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+  }
+  .save-button:hover {
+    background-color: #005f99 !important;
+  }
+  
+  /* Profile Image Section */
+  .profile-image-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #007acc;
+  }
+  
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s;
+    cursor: pointer;
+  }
+  
+  .profile-image-container:hover .profile-image-overlay {
+    opacity: 1;
+  }
+  
+  .wxi-camera {
+    font-size: 24px;
+  }
+  
+  /* Uploader button */
+  .modern-uploader .webix_el_button {
+    background-color: #e0f0ff;
+    border-radius: 6px;
+    color: #007acc;
+    font-weight: 500;
+  }
+  .modern-uploader .webix_el_button:hover {
+    background-color: #c0e2ff;
+  }
+  

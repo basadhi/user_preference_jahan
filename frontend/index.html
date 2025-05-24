@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Preferences</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="User Preferences Management System">
+
+  <!-- Webix CSS -->
+  <link rel="stylesheet" href="https://cdn.webix.com/edge/webix.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&display=swap" rel="stylesheet">
+  <!-- Material Design Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
+  <!-- Standard Theme (Default)
+  <link rel="stylesheet" href="https://cdn.webix.com/edge/webix.css">
+  <!-- Dark Theme -->
+  <!-- <link rel="stylesheet" href="https://cdn.webix.com/edge/skins/dark.css"> -->
+
+<!-- Contrast Theme -->
+  <!-- <link rel="stylesheet" href="https://cdn.webix.com/edge/skins/contrast.css"> --> -->
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./styles/styles.css">
+  <link rel="stylesheet" href="./styles/account.css">
+  <link rel="stylesheet" href="./styles/home.css">
+
+  <!-- Webix Theme Stylesheets -->
+  <link rel="stylesheet" href="https://cdn.webix.com/edge/webix.css" title="light" disabled>
+  <link rel="stylesheet" href="https://cdn.webix.com/edge/skins/compact.css" title="light" disabled>
+  <link rel="stylesheet" href="https://cdn.webix.com/edge/skins/dark.css" title="dark" disabled>
+  <link rel="stylesheet" href="https://cdn.webix.com/edge/skins/contrast.css" title="high-contrast" disabled>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    #app {
+      height: 100%;
+      width: 100%;
+      position: relative;
+    }
+    .home-container {
+      background: #f5f7fa;
+      height: 100%;
+    }
+    .welcome-template {
+      background: white;
+      border-radius: 8px;
+      margin: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+  </style>
+
+  <!-- Webix JS -->
+  <script src="https://cdn.webix.com/edge/webix.js"></script>
+  <script>
+    // Debug Webix loading
+    window.addEventListener('load', function() {
+      console.log('Window loaded');
+      console.log('Webix available:', typeof webix !== 'undefined');
+    });
+  </script>
+
+  <!-- Form Components -->
+  <script type="module" src="./components/home.js"></script>
+  <script type="module" src="./components/loginpage.js"></script>
+  <script type="module" src="./components/signuppage.js"></script>
+  <script type="module" src="./components/settings.js"></script>
+  <script type="module" src="./components/forms/account.js"></script>
+  <script type="module" src="./components/forms/notifications.js"></script>
+  <script type="module" src="./components/forms/privacy.js"></script>
+  <script type="module" src="./components/forms/theme.js"></script>
+  <script type="module" src="./components/utils/apiService.js"></script>
+  <script type="module" src="./components/utils/dataService.js"></script>
+  <!-- <script type="module" src="./components/"></script> -->
+  
+  <!-- Main Application -->
+  <script type="module" src="./components/app.js"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <!-- Error Handling -->
+  <script>
+    window.onerror = function(msg, url, lineNo, columnNo, error) {
+      console.error('Error: ' + msg + '\nURL: ' + url + '\nLine: ' + lineNo + '\nColumn: ' + columnNo + '\nError object: ' + JSON.stringify(error));
+      return false;
+    };
+  </script>
+</body>
+</html>

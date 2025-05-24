@@ -1,0 +1,243 @@
+/* Home Container */
+.home-container {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+    min-height: 100vh;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Toolbar */
+.home-toolbar {
+    background: #cf2424;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.home-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Buttons */
+.settings-button, .auth-button {
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-left: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.settings-button {
+    background: #007acc;
+    color: white;
+}
+
+.settings-button:hover {
+    background: #005999;
+    transform: translateY(-1px);
+}
+
+.auth-button {
+    background: transparent;
+    color: #007acc;
+    border: 1px solid #007acc;
+}
+
+.auth-button:hover {
+    background: #f0f7ff;
+}
+
+.auth-button.signup {
+    background: #007acc;
+    color: white;
+}
+
+.auth-button.signup:hover {
+    background: #005999;
+}
+
+/* Welcome Screen */
+.welcome-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.welcome-content {
+    max-width: 800px;
+    margin-bottom: 48px;
+}
+
+.welcome-content h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 24px;
+    line-height: 1.2;
+}
+
+.welcome-content p {
+    font-size: 20px;
+    color: #5d6778;
+    line-height: 1.6;
+}
+
+/* Action Buttons */
+.get-started-button, .learn-more-button {
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin: 0 12px;
+    cursor: pointer;
+}
+
+.get-started-button {
+    background: #007acc;
+    color: white;
+    border: none;
+}
+
+.get-started-button:hover {
+    background: #005999;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 122, 204, 0.2);
+}
+
+.learn-more-button {
+    background: transparent;
+    color: #007acc;
+    border: 2px solid #007acc;
+}
+
+.learn-more-button:hover {
+    background: #f0f7ff;
+    transform: translateY(-2px);
+}
+
+/* Auth Forms */
+.auth-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 48px 24px;
+}
+
+.auth-form {
+    background: white;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-form .webix_label {
+    font-size: 14px;
+    color: #5d6778;
+    margin-bottom: 8px;
+}
+
+.auth-input {
+    margin-bottom: 20px;
+}
+
+.auth-input .webix_input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.auth-input .webix_input:focus {
+    border-color: #007acc;
+    box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.1);
+    outline: none;
+}
+
+.auth-submit-button {
+    width: 100%;
+    padding: 12px;
+    background: #007acc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.auth-submit-button:hover {
+    background: #005999;
+    transform: translateY(-1px);
+}
+
+.auth-back-button {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    color: #5d6778;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.auth-back-button:hover {
+    background: #f5f7fa;
+}
+
+/* Form Settings Container */
+.form-settings-container {
+    padding: 24px;
+    background: #f5f7fa;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .home-toolbar {
+        padding: 0 16px;
+        height: auto;
+        flex-wrap: wrap;
+    }
+
+    .home-title {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 16px;
+    }
+
+    .welcome-content h1 {
+        font-size: 36px;
+    }
+
+    .welcome-content p {
+        font-size: 18px;
+    }
+
+    .get-started-button, .learn-more-button {
+        width: 100%;
+        margin: 8px 0;
+    }
+
+    .auth-form {
+        padding: 24px 16px;
+    }
+} 
