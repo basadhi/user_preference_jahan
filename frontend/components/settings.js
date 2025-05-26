@@ -11,27 +11,33 @@ export const settings = {
         {
             view: "toolbar",
             responsive: true,
+            height: 64,
+            minHeight: 31,
+            minWidth: 300,
             cols: [
                 {
-                view: "button",
-                type: "icon",
-                icon: "mdi mdi-arrow-left",
-                label: "Back",
-                width: 100,
-                css: "webix_primary",
-                click: function () {
-                    $$("main_content").setValue("home_ui"); // ✅ Replace with your home view ID
-                }
-            },
+                    view: "button",
+                    type: "icon",
+                    icon: "mdi mdi-arrow-left",
+                    label: "Back",
+                    width: 100,
+                    responsive: true,
+                    minWidth: 44,
+                    css: "webix_primary",
+                    click: function () {
+                        $$("main_content").setValue("home_ui");
+                    }
+                },
                 { 
                     view: "segmented", 
                     id: "settingsNavigation",
                     multiview: true,
+                    responsive: true,
                     options: [
                         { value: "Account", id: "account_settings_cell" },
                         { value: "Privacy", id: "privacy_settings_cell" },
                         { value: "Notifications", id: "notifications_settings_cell" },
-                        {value: "Theme", id:"theme_settings_cell"}
+                        { value: "Theme", id: "theme_settings_cell" }
                     ],
                     on: {
                         onChange: function(newv) {
@@ -68,13 +74,14 @@ export const settings = {
             ]
         }
     ],
-    // Responsive configuration
+    
     responsiveConfig: {
-        mobile: {
-            breakpoint: 600,
+        ipadPro: {
+            breakpoint: 1366,
             params: {
                 layout: {
-                    type: "space"
+                    type: "wide",
+                    padding: 10
                 }
             }
         },
@@ -82,49 +89,84 @@ export const settings = {
             breakpoint: 1024,
             params: {
                 layout: {
-                    type: "wide"
+                    type: "wide",
+                    padding: 30
+                }
+            }
+        },
+        mobile: {
+            breakpoint: 390,
+            params: {
+                layout: {
+                    type: "space",
+                    padding: 15
                 }
             }
         }
     },
     
-    // Dynamic responsiveness handler
-    on: {
+     on: {
         onAfterRender: function() {
-            // Manage mobile menu visibility
-            const width = this.getParentView().config.width || window.innerWidth;
-            const mobileMenuToggle = $$("mobileMenuToggle");
-            const settingsNavigation = $$("settingsNavigation");
-
-            if (width < 600) {
-                // Mobile view
-                mobileMenuToggle.show();
-                settingsNavigation.hide();
-            } else {
-                // Desktop/Tablet view
-                mobileMenuToggle.hide();
-                settingsNavigation.show();
-            }
+            this.adjustLayout();
+          
+            let resizeTimeout;
+            webix.event(window, "resize", () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => this.adjustLayout(), 150);
+            });
+            
+           
+            webix.event(window, "orientationchange", () => {
+                setTimeout(() => this.adjustLayout(), 300);
+            });
         }
-    }
+    },
+
+    
+    adjustLayout: function() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const settingsNavigation = $$("settingsNavigation");
+        const mobileMenuToggle = $$("mobileMenuToggle");
+        const toolbar = $$("settings_toolbar");
+        const multiview = $$("settingsMultiview");
+        
+       
+        if (width >= 1194) {
+            this.applyIPadProLayout(toolbar, settingsNavigation, mobileMenuToggle, width);
+        }
+       
+        
+        else if (width >= 390) {
+            this.applyIPhone12ProLayout(toolbar, settingsNavigation, mobileMenuToggle);
+        }
+        
+        else {
+            this.applySmallMobileLayout(toolbar, settingsNavigation, mobileMenuToggle);
+        }
+        
+       
+        webix.ui.resize();
+    },
 };
 
-// Mobile menu popup for small screens
+// Updated mobile menu popup
 if (!$$("settingsMobileMenu")) {
     webix.ui({
         view: "popup",
         id: "settingsMobileMenu",
-        width: 250,
+        width: 280,
         body: {
             view: "list",
             select: true,
+            css: "settings-mobile-menu",
             data: [
-                { id: "account_settings_cell", value: "Account", icon: "user" },
-                { id: "privacy_settings_cell", value: "Privacy", icon: "lock" },
-                { id: "notifications_settings_cell", value: "Notifications", icon: "bell" },
-                { id: "theme_settings_cell", value: "Appearance", icon: "paint-brush" }
+                { id: "account_settings_cell", value: "Account", icon: "mdi mdi-account" },
+                { id: "privacy_settings_cell", value: "Privacy", icon: "mdi mdi-shield-lock" },
+                { id: "notifications_settings_cell", value: "Notifications", icon: "mdi mdi-bell" },
+                { id: "theme_settings_cell", value: "Appearance", icon: "mdi mdi-palette" }
             ],
-            template: "<div class='mobile-menu-item'><span class='webix_icon fa-#icon#'></span> #value#</div>",
+            template: "<div class='mobile-menu-item'><span class='#icon#'></span> #value#</div>",
             on: {
                 onItemClick: function(id) {
                     $$("settingsNavigation").setValue(id);
@@ -136,24 +178,60 @@ if (!$$("settingsMobileMenu")) {
     });
 }
 
-// Optional: Add responsive CSS
+
 webix.html.addStyle(`
     .mobile-menu-item {
         display: flex;
         align-items: center;
-        padding: 10px;
+        padding: 15px;
+        font-size: 16px;
+        border-bottom: 1px solid #eee;
     }
-    .mobile-menu-item .webix_icon {
-        margin-right: 10px;
+    
+    .mobile-menu-item:last-child {
+        border-bottom: none;
+    }
+    
+    .mobile-menu-item .mdi {
+        margin-right: 15px;
+        font-size: 20px;
+        width: 24px;
+        text-align: center;
+    }
+
+    /* iPad Pro specific styles */
+    @media screen and (min-width: 1024px) and (max-width: 1366px) {
+        .mobile-menu-item {
+            padding: 20px;
+            font-size: 18px;
+        }
+        
+        .mobile-menu-item .mdi {
+            font-size: 24px;
+            width: 30px;
+        }
+    }
+
+    /* iPhone 12 Pro specific styles */
+    @media screen and (max-width: 390px) {
+        .mobile-menu-item {
+            padding: 12px;
+            font-size: 15px;
+        }
+        
+        .mobile-menu-item .mdi {
+            font-size: 18px;
+            width: 20px;
+            margin-right: 12px;
+        }
     }
 `);
 
-// Utility function for view switching
 function switchSettingsView(viewId) {
     try {
         const settingsMultiview = $$("settingsMultiview");
         const settingsNavigation = $$("settingsNavigation");
-        
+
         if (settingsMultiview && settingsNavigation) {
             settingsMultiview.setValue(viewId);
             settingsNavigation.setValue(viewId);
@@ -167,24 +245,21 @@ window.showsettingsView = function (viewId) {
     $$("settingsView").setValue(viewId);
 };
 
-if ($$("settings")) {
-    $$("settings").attachEvent("onKeyPress", function (key, e) {
-      switch (key) {
-        case 65: // 'A' key
-          if (e.altKey) {
-            showSettingsView("account_settings_cell");
-          }
-          break;
-        case 80: // 'P' key
-          if (e.altKey) {
-            showSettingsView("privacy_settings_cell");
-          }
-          break;
-        case 78: // 'N' key
-          if (e.altKey) {
-            showSettingsView("notifications_settings_cell");
-          }
-          break;
-      }
-    });
-  }
+webix.event(document, "keydown", function (e) {
+    if (e.altKey) {
+        switch (e.key.toUpperCase()) {
+            case "A":
+                switchSettingsView("account_settings_cell");
+                break;
+            case "P":
+                switchSettingsView("privacy_settings_cell");
+                break;
+            case "N":
+                switchSettingsView("notifications_settings_cell");
+                break;
+            case "T":
+                switchSettingsView("theme_settings_cell");
+                break;
+        }
+    }
+});

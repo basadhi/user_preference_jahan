@@ -33,4 +33,8 @@ import { SignupPage } from "./signuppage.js";
         ]
     });
 
-    // $$("nav_list").select("account_settings_cell"); // Set default selected tab
+window.addEventListener('resize', function() {
+    
+    webix.ui.resize();   
+   
+});

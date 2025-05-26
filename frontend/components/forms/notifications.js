@@ -722,6 +722,47 @@ export const NotificationsForm = {
       `;
       document.head.appendChild(style);
     }
+  },
+
+  adjustLayout: function() {
+    const width = window.innerWidth;
+    const notificationForm = $$("notificationForm");
+    const notificationsLayout = $$("notifications_layout");
+
+    // iPad Pro (1024x1366)
+    if (width >= 1024 && width <= 1366) {
+      if (notificationForm) {
+        notificationForm.define("elementsConfig", {
+          labelPosition: "left",
+          labelWidth: 180
+        });
+        notificationForm.define("paddingX", 30);
+        notificationForm.define("paddingY", 30);
+        notificationForm.refresh();
+      }
+      if (notificationsLayout) {
+        notificationsLayout.define("paddingX", 20);
+        notificationsLayout.define("paddingY", 20);
+        notificationsLayout.refresh();
+      }
+    }
+    // iPhone 12 Pro (390x844)
+    else if (width <= 390) {
+      if (notificationForm) {
+        notificationForm.define("elementsConfig", {
+          labelPosition: "top",
+          labelWidth: 120
+        });
+        notificationForm.define("paddingX", 15);
+        notificationForm.define("paddingY", 15);
+        notificationForm.refresh();
+      }
+      if (notificationsLayout) {
+        notificationsLayout.define("paddingX", 10);
+        notificationsLayout.define("paddingY", 10);
+        notificationsLayout.refresh();
+      }
+    }
   }
 };
 
@@ -775,3 +816,64 @@ async function savePreferences() {
     webix.message({ type: "error", text: "Failed to save preferences" });
   }
 }
+
+// Add responsive styles
+webix.html.addStyle(`
+  /* iPad Pro specific styles */
+  @media screen and (min-width: 1024px) and (max-width: 1366px) {
+    .settings-title {
+      font-size: 2rem;
+      line-height: 1.3;
+    }
+    
+    .settings-subtitle {
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+    
+    .modern-fieldset {
+      padding: 25px;
+    }
+    
+    .modern-checkbox, .modern-switch, .modern-combo, .modern-segmented {
+      font-size: 16px;
+      height: 50px;
+    }
+    
+    .modern-fieldset label {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+  }
+
+  /* iPhone 12 Pro specific styles */
+  @media screen and (max-width: 390px) {
+    .settings-title {
+      font-size: 1.4rem;
+      line-height: 1.2;
+    }
+    
+    .settings-subtitle {
+      font-size: 0.9rem;
+      line-height: 1.3;
+    }
+    
+    .modern-fieldset {
+      padding: 15px;
+    }
+    
+    .modern-checkbox, .modern-switch, .modern-combo, .modern-segmented {
+      font-size: 14px;
+      height: 40px;
+    }
+    
+    .modern-fieldset label {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    
+    .settings-header-container {
+      height: 70px;
+    }
+  }
+`);

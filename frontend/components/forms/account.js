@@ -1,4 +1,5 @@
 import { apiService } from '../utils/apiService.js';
+import { refreshUserInfo } from '../home.js';
 
 // Get token from localStorage
 const getToken = () => localStorage.getItem("authToken");
@@ -190,7 +191,7 @@ export const AccountForm = {
                                     const currentUser = JSON.parse(localStorage.getItem("loggedUser")) || {};
                                     currentUser.displayName = this.getValue();
                                     localStorage.setItem("loggedUser", JSON.stringify(currentUser));
-                                    currentUser.displayName = newValue;
+                                    // currentUser.displayName = newValue;
                                     localStorage.setItem("loggedUser", JSON.stringify(currentUser));
 
                                   }
@@ -213,7 +214,11 @@ export const AccountForm = {
                                 placeholder: "+1 (555) 123-4567",
                                 css: "modern-input",
                                 validate: function (value) {
-                                  return !value || /^[\+]?[0-9\s\-\(\)]{10,}$/.test(value);
+                                    const isvalid = !value || /^[\+]?[0-9\s\-\(\)]{10,}$/.test(value);
+                                    if (!isvalid) {
+                                        webix.message({ type: "error", text: "Please enter a valid phone number" });
+                                    }
+                                  return isvalid;
                                 },
                                 on: {
                                   onChange: function() {
@@ -259,6 +264,18 @@ export const AccountForm = {
                           {},
                           {
                             view: "button",
+                            value: "Save Profile",
+                            minWidth: 120,  
+                            height: 45,
+                            tooltip: "Save Profile(alt+s)",
+                            hotkey: "alt+s",
+                            css: "primary-button",
+                            click: async function () {
+                              await saveProfile();
+                            }
+                          },
+                          {
+                            view: "button",
                             value: "Reset Changes",
                             minWidth: 120,  
                             height: 45,
@@ -274,18 +291,18 @@ export const AccountForm = {
                           {
                             width: 10
                           },
-                          {
-                            view: "button",
-                            value: "Save Profile",
-                            minWidth: 120,  
-                            height: 45,
-                            tooltip: "Save Profile(alt+s)",
-                            hotkey: "alt+s",
-                            css: "primary-button",
-                            click: async function () {
-                              await saveProfile();
-                            }
-                          }
+                          // {
+                          //   view: "button",
+                          //   value: "Save Profile",
+                          //   minWidth: 120,  
+                          //   height: 45,
+                          //   tooltip: "Save Profile(alt+s)",
+                          //   hotkey: "alt+s",
+                          //   css: "primary-button",
+                          //   click: async function () {
+                          //     await saveProfile();
+                          //   }
+                          // }
                         ]
                       }
                     ]

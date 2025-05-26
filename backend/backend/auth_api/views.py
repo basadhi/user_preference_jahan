@@ -35,9 +35,9 @@ class LoginView(APIView):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         
-        # Get user by email instead of username
+       
         try:
-            # Get the first user with this email
+           
             user = User.objects.filter(email=serializer.validated_data['email']).first()
             if user and user.check_password(serializer.validated_data['password']):
                 token, created = Token.objects.get_or_create(user=user)
@@ -61,7 +61,7 @@ class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
     
     def post(self, request):
-        # Delete the token to logout
+    
         request.user.auth_token.delete()
         return Response({
             "message": "Logged out successfully"

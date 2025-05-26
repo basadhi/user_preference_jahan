@@ -36,6 +36,7 @@ export const SignupPage = {
           type: "icon",
           icon: "mdi mdi-home",
           tooltip: "Go to Home Page",
+          hotkey: "esc",
           width: 40,
           css: "transparent-button",
           click: function() {
@@ -107,6 +108,16 @@ export const SignupPage = {
                   required: true,
                   css: "signup-input",
                   validate: function(value) {
+                    const validPassword = webix.rules.isNotEmpty(value) &&
+                      // webix.rules.isAlphanumeric(value) &&
+                      webix.rules.isNotEmpty(value) &&
+                      value.length >= 8;
+                      if (!validPassword) {
+                        webix.message({ 
+                          type: "error", 
+                          text: "Password must be at least 8 characters long and contain letters and numbers" 
+                        });
+                      }
                     return value.length >= 8;
                   },
                   invalidMessage: "Password must be at least 8 characters",
@@ -222,9 +233,9 @@ export const SignupPage = {
                       })
                       .catch(error => {
                         console.error("Registration error:", error);
-                        let errorMessage = "Registration failed";
+                        let errorMessage = "Registration failed, Password must be alphanumeric!";
                         
-                        // Handle specific error messages from Django backend
+                        
                         if (error.response && error.response.data) {
                           if (error.response.data.email) {
                             errorMessage = "Email already exists";
@@ -238,7 +249,7 @@ export const SignupPage = {
                         webix.message({ type: "error", text: errorMessage });
                       })
                       .finally(() => {
-                        // Reset button state
+                        
                         this.enable();
                         this.setValue("Create Account");
                       });

@@ -11,7 +11,7 @@ function applyThemeMode(mode) {
     document.body.classList.add("high-contrast-theme");
     document.body.classList.remove("dark-theme", "light-theme");
   } else {
-    // System: use prefers-color-scheme media query
+    
     if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
       applyThemeMode("dark");
     } else {
@@ -41,9 +41,9 @@ function applyFontFamily(font) {
  
   document.body.style.fontFamily = font;
   
-  // Apply to all webix elements safely
+  
   try {
-    // Apply to all webix views
+  
     const webixElements = document.querySelectorAll('.webix_view, .webix_el_box, .webix_el_text, .webix_el_label');
     webixElements.forEach(element => {
       element.style.fontFamily = font;
@@ -53,7 +53,7 @@ function applyFontFamily(font) {
   }
 }
 
-// Default preferences
+
 const DEFAULT_PREFERENCES = {
   theme: "system",
   font_family: "Arial, sans-serif",
@@ -77,198 +77,305 @@ export function applyPreferences(prefs) {
 
 
 export const ThemeForm = {
-
-type: "clean",
-rows: [
-  {
-    view: "template",
-    type: "header",
-    template: "<span class='mdi mdi-theme-light-dark'></span> Theme Settings",
-    height: 50,
-    css: "webix_header app_header"
-  },
-  {
-    cols: [
-      {
-        view: "sidebar",
-        id: "themeSidebar",
-        width: 180,
-        height: 500,
-        data: [
-          { id: "appearance", icon: "mdi mdi-palette", value: "Appearance" },
-          { id: "layout", icon: "mdi mdi-view-dashboard-outline", value: "Layout" },
-          { id: "accessibility", icon: "mdi mdi-eye", value: "Accessibility" }
-        ],
-        on: {
-          onAfterSelect: function(id) {
-            $$("themeFormMultiview").setValue(id);
+  type: "clean",
+  rows: [
+    {
+      view: "template",
+      type: "header",
+      template: "<span class='mdi mdi-theme-light-dark'></span> Theme Settings",
+      height: 50,
+      css: "webix_header app_header"
+    },
+    {
+      cols: [
+        {
+          view: "sidebar",
+          id: "themeSidebar",
+          width: 180,
+          height: 500,
+          data: [
+            { id: "appearance", icon: "mdi mdi-palette", value: "Appearance" },
+            { id: "layout", icon: "mdi mdi-view-dashboard-outline", value: "Layout" },
+            { id: "accessibility", icon: "mdi mdi-eye", value: "Accessibility" }
+          ],
+          on: {
+            onAfterSelect: function(id) {
+              $$("themeFormMultiview").setValue(id);
+            }
           }
-        }
-      },
-      {
-        view: "multiview",
-        id: "themeFormMultiview",
-        height: 500,
-        responsive: true,
-        minWidth: 320,
-        scroll: "y",
-        cells: [
-          {
-            id: "appearance",
-            rows: [
-              {
-                view: "form",
-                id: "appearanceForm",
-                elements: [
-                  {
-                    cols: [
-                      {
-                        view: "radio",
-                        label: "Theme",
-                        labelWidth: 120,
-                        name: "theme",
-                        value: localStorage.getItem("theme") || "system",
-                        options: [
-                          { id: "light", value: "<span class='mdi mdi-weather-sunny'></span> Light Theme" },
-                          { id: "dark", value: "<span class='mdi mdi-weather-night'></span> Dark Theme" },
-                          { id: "high-contrast", value: "<span class='mdi mdi-contrast'></span> High Contrast" },
-                          { id: "system", value: "<span class='mdi mdi-monitor'></span> System Default" }
-                        ],
-                        vertical: true,
-                        height: 200,
-                        css: "theme-radio-group",
-                        on: {
-                          onChange: function(newTheme) {
-                            applyThemeMode(newTheme);
+        },
+        {
+          view: "multiview",
+          id: "themeFormMultiview",
+          height: 500,
+          responsive: true,
+          minWidth: 320,
+          scroll: "y",
+          cells: [
+            {
+              id: "appearance",
+              rows: [
+                {
+                  view: "form",
+                  id: "appearanceForm",
+                  elements: [
+                    {
+                      cols: [
+                        {
+                          view: "radio",
+                          label: "Theme",
+                          labelWidth: 120,
+                          name: "theme",
+                          value: localStorage.getItem("theme") || "system",
+                          options: [
+                            { id: "light", value: "<span class='mdi mdi-weather-sunny'></span> Light Theme" },
+                            { id: "dark", value: "<span class='mdi mdi-weather-night'></span> Dark Theme" },
+                            { id: "high-contrast", value: "<span class='mdi mdi-contrast'></span> High Contrast" },
+                            { id: "system", value: "<span class='mdi mdi-monitor'></span> System Default" }
+                          ],
+                          vertical: true,
+                          height: 200,
+                          css: "theme-radio-group",
+                          on: {
+                            onChange: function(newTheme) {
+                              applyThemeMode(newTheme);
+                            }
+                          }
+                        },
+                        {
+                          template: "<img src='../assets/images/5568706.jpg' style='width:100px'>",
+                          borderless: true,
+                          height: 200
+                        }
+                      ]
+                    },
+                    {
+                      view: "select",
+                      label: "Font Family",
+                      labelWidth: 120,
+                      name: "font_family",
+                      value: localStorage.getItem("fontFamily") || "Arial, sans-serif",
+                      options: [
+                        { id: "Arial, sans-serif", value: "Arial" },
+                        { id: "'Times New Roman', serif", value: "Times New Roman" },
+                        { id: "'Courier New', monospace", value: "Courier New" },
+                        { id: "'Segoe UI', sans-serif", value: "Segoe UI" },
+                        { id: "'Roboto', sans-serif", value: "Roboto" },
+                        { id: "'Open Sans', sans-serif", value: "Open Sans" }
+                      ],
+                      height: 40,
+                      on: {
+                        onChange: function() {
+                          const values = $$("appearanceForm").getValues();
+                          applyFontFamily(values.font_family);
+                        }
+                      }
+                    },
+                    {
+                      view: "colorpicker",
+                      label: "Primary Color",
+                      labelWidth: 120,
+                      name: "primary_color",
+                      value: localStorage.getItem("primaryColor") || "#1CA1C1",
+                      height: 40,
+                      on: {
+                        onChange: function() {
+                          const values = $$("appearanceForm").getValues();
+                          applyPrimaryColor(values.primary_color);
+                        }
+                      }
+                    },
+                    {
+                      view: "switch",
+                      label: "Enable Animations",
+                      labelWidth: 150,
+                      name: "animations_enabled",
+                      value: localStorage.getItem("animations") === "true",
+                      height: 40,
+                      on: {
+                        onChange: function() {
+                          const values = $$("appearanceForm").getValues();
+                          toggleAnimations(values.animations_enabled);
+                        }
+                      }
+                    },
+                  
+                    {
+                      height: 20
+                    },
+                    {
+                      cols: [
+                        {
+                          view: "button",
+                          value: "<span class='mdi mdi-content-save'></span> Save Preferences",
+                          type: "form",
+                          height: 45,
+                          css: "primary-button",
+                          click: function() {
+                            savePreferences();
+                          }
+                        },
+                        { width: 10 },
+                        {
+                          view: "button",
+                          value: "<span class='mdi mdi-restore'></span> Reset to Default",
+                          height: 45,
+                          css: "webix_secondary",
+                          click: function() {
+                            resetToDefault();
                           }
                         }
-                      },
-                      {
-                        template: "<img src='https://cdn-icons-png.flaticon.com/512/919/919828.png' style='width:100px'>",
-                        borderless: true,
-                        height: 200
-                      }
-                    ]
-                  },
-                  {
-                    view: "select",
-                    label: "Font Family",
-                    labelWidth: 120,
-                    name: "font_family",
-                    value: localStorage.getItem("fontFamily") || "Arial, sans-serif",
-                    options: [
-                      { id: "Arial, sans-serif", value: "Arial" },
-                      { id: "'Times New Roman', serif", value: "Times New Roman" },
-                      { id: "'Courier New', monospace", value: "Courier New" },
-                      { id: "'Segoe UI', sans-serif", value: "Segoe UI" },
-                      { id: "'Roboto', sans-serif", value: "Roboto" },
-                      { id: "'Open Sans', sans-serif", value: "Open Sans" }
-                    ],
-                    height: 40,
-                    on: {
-                      onChange: function() {
-                        const values = $$("appearanceForm").getValues();
-                        applyFontFamily(values.font_family);
-                      }
+                      ]
                     }
-                  },
-                  {
-                    view: "colorpicker",
-                    label: "Primary Color",
-                    labelWidth: 120,
-                    name: "primary_color",
-                    value: localStorage.getItem("primaryColor") || "#1CA1C1",
-                    height: 40,
-                    on: {
-                      onChange: function() {
-                        const values = $$("appearanceForm").getValues();
-                        applyPrimaryColor(values.primary_color);
-                      }
+                  ],
+                  on: {
+                    onShow: function() {
+                      loadPreferences();
+                    },
+                    onAfterRender: function() {
+                    
+                      loadPreferences();
                     }
-                  },
-                  {
-                    view: "switch",
-                    label: "Enable Animations",
-                    labelWidth: 150,
-                    name: "animations_enabled",
-                    value: localStorage.getItem("animations") === "true",
-                    height: 40,
-                    on: {
-                      onChange: function() {
-                        const values = $$("appearanceForm").getValues();
-                        toggleAnimations(values.animations_enabled);
-                      }
-                    }
-                  },
-                  // Action buttons
-                  {
-                    height: 20
-                  },
-                  {
-                    cols: [
-                      {
-                        view: "button",
-                        value: "<span class='mdi mdi-content-save'></span> Save Preferences",
-                        type: "form",
-                        height: 45,
-                        css: "webix_primary",
-                        click: function() {
-                          savePreferences();
-                        }
-                      },
-                      { width: 10 },
-                      {
-                        view: "button",
-                        value: "<span class='mdi mdi-restore'></span> Reset to Default",
-                        height: 45,
-                        css: "webix_secondary",
-                        click: function() {
-                          resetToDefault();
-                        }
-                      }
-                    ]
-                  }
-                ],
-                on: {
-                  onShow: function() {
-                    loadPreferences();
-                  },
-                  onAfterRender: function() {
-                    // Also load preferences when the form is first rendered
-                    loadPreferences();
                   }
                 }
-              }
-            ]
-          },
-          {
-            id: "layout",
-            template: "<div style='padding: 20px;'>Layout options coming soon...</div>",
-            height: 500
-          },
-          {
-            id: "accessibility",
-            template: "<div style='padding: 20px;'>Accessibility options coming soon...</div>",
-            height: 500
-          }
-        ]
+              ]
+            },
+            {
+              id: "layout",
+              template: "<div style='padding: 20px;'>Layout options coming soon...</div>",
+              height: 500
+            },
+            {
+              id: "accessibility",
+              template: "<div style='padding: 20px;'>Accessibility options coming soon...</div>",
+              height: 500
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  on: {
+    onAfterRender: function() {
+      this.adjustLayout();
+      webix.event(window, "resize", () => this.adjustLayout());
+    }
+  },
+  adjustLayout: function() {
+    const width = window.innerWidth;
+    const themeSidebar = $$("themeSidebar");
+    const themeFormMultiview = $$("themeFormMultiview");
+    const appearanceForm = $$("appearanceForm");
+
+    // iPad Pro (1024x1366)
+    if (width >= 1024 && width <= 1366) {
+      if (themeSidebar) {
+        themeSidebar.define("width", 220);
+        themeSidebar.refresh();
       }
-    ]
+      if (themeFormMultiview) {
+        themeFormMultiview.define("minWidth", 400);
+        themeFormMultiview.refresh();
+      }
+      if (appearanceForm) {
+        appearanceForm.define("elementsConfig", {
+          labelWidth: 150
+        });
+        appearanceForm.refresh();
+      }
+    }
+    // iPhone 12 Pro (390x844)
+    else if (width <= 390) {
+      if (themeSidebar) {
+        themeSidebar.define("width", 140);
+        themeSidebar.refresh();
+      }
+      if (themeFormMultiview) {
+        themeFormMultiview.define("minWidth", 250);
+        themeFormMultiview.refresh();
+      }
+      if (appearanceForm) {
+        appearanceForm.define("elementsConfig", {
+          labelWidth: 100
+        });
+        appearanceForm.refresh();
+      }
+    }
   }
-]
 };
+
+// Add responsive styles
+webix.html.addStyle(`
+  /* iPad Pro specific styles */
+  @media screen and (min-width: 1024px) and (max-width: 1366px) {
+    .webix_header {
+      font-size: 1.8rem;
+      padding: 15px 25px;
+    }
+    
+    .theme-radio-group {
+      font-size: 16px;
+    }
+    
+    .theme-radio-group .webix_radio_option {
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    
+    .theme-radio-group .mdi {
+      font-size: 20px;
+      margin-right: 10px;
+    }
+    
+    .primary-button, .webix_secondary {
+      font-size: 16px;
+      padding: 12px 20px;
+    }
+  }
+
+  /* iPhone 12 Pro specific styles */
+  @media screen and (max-width: 390px) {
+    .webix_header {
+      font-size: 1.4rem;
+      padding: 10px 15px;
+    }
+    
+    .theme-radio-group {
+      font-size: 14px;
+    }
+    
+    .theme-radio-group .webix_radio_option {
+      padding: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .theme-radio-group .mdi {
+      font-size: 16px;
+      margin-right: 8px;
+    }
+    
+    .primary-button, .webix_secondary {
+      font-size: 14px;
+      padding: 8px 15px;
+    }
+    
+    .webix_el_select, .webix_el_colorpicker, .webix_el_switch {
+      height: 35px;
+    }
+  }
+`);
 
 async function loadPreferences() {
   try {
-    // First, try to load from localStorage immediately for faster UI response
+    
     loadFromLocalStorage();
     
-    // Then try to load from server to get the latest preferences
+   
     const response = await apiService.get('/preferences/');
     if (response.data) {
       const serverPreferences = response.data;
       
-      // Apply server preferences and update form
+     
       const preferences = {
         theme: serverPreferences.theme,
         font_family: serverPreferences.font_family,
@@ -279,7 +386,7 @@ async function loadPreferences() {
       applyPreferences(preferences);
       $("appearanceForm").setValues(preferences);
       
-      // Update localStorage with server data
+      
       localStorage.setItem("theme", preferences.theme);
       localStorage.setItem("fontFamily", preferences.font_family);
       localStorage.setItem("primaryColor", preferences.primary_color);
@@ -287,13 +394,13 @@ async function loadPreferences() {
     }
   } catch (error) {
     console.error('Error loading preferences from server:', error);
-    // Continue using localStorage data (already loaded above)
+   
     console.log('Using localStorage preferences as fallback');
   }
 }
 
 function loadFromLocalStorage() {
-  // Try to get preferences from the stored JSON object first
+ 
   let preferences = null;
   
   try {
@@ -311,7 +418,7 @@ function loadFromLocalStorage() {
     console.warn('Error parsing stored preferences JSON:', error);
   }
   
-  // Fallback to individual localStorage items if JSON parsing failed
+  
   if (!preferences) {
     preferences = {
       theme: localStorage.getItem("theme") || DEFAULT_PREFERENCES.theme,
@@ -324,7 +431,7 @@ function loadFromLocalStorage() {
   console.log('Loading preferences from localStorage:', preferences);
   applyPreferences(preferences);
   
-  // Update form if it exists
+ 
   if ($("appearanceForm")) {
     $("appearanceForm").setValues(preferences);
   }
@@ -342,18 +449,18 @@ async function savePreferences() {
       animations_enabled: values.animations_enabled
     };
     
-    // Save to localStorage first
+    
     localStorage.setItem("theme", preferences.theme);
     localStorage.setItem("fontFamily", preferences.font_family);
     localStorage.setItem("primaryColor", preferences.primary_color);
     localStorage.setItem("animations", preferences.animations_enabled.toString());
     
-    // Apply preferences immediately
+    
     applyPreferences(preferences);
     const storedPrefs = JSON.parse(localStorage.getItem("preferences"));
     const prefId = storedPrefs?.id;
     
-    // Save to server
+    
     await apiService.put('/preference/', preferences, {
       headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
     });
@@ -376,19 +483,19 @@ async function resetToDefault() {
     callback: async function(result) {
       if (result) {
         try {
-          // Apply default preferences
+          
           applyPreferences(DEFAULT_PREFERENCES);
           
-          // Update form with default values
+       
           $$("appearanceForm").setValues(DEFAULT_PREFERENCES);
           
-          // Clear localStorage
+         
           localStorage.removeItem("theme");
           localStorage.removeItem("fontFamily");
           localStorage.removeItem("primaryColor");
           localStorage.removeItem("animations");
           
-          // Save defaults to server
+         
           await apiService.put('/preference/', DEFAULT_PREFERENCES, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
           });

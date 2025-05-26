@@ -89,6 +89,7 @@ export const LoginPage = {
         {
           view: "button",
           value: "Log in",
+          hotkey: "enter",
           height: 50,
           click: async function () {
             const form = $$("login_page_form");

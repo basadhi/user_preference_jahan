@@ -37,7 +37,7 @@ function updateUIForLoginStatus() {
         }
     }
     
-    // Update top navigation visibility
+    
     if (topNavSettings) {
         if (isLoggedIn) {
             topNavSettings.show();
@@ -62,7 +62,7 @@ function updateUIForLoginStatus() {
         }
     }
     
-    // Toggle between login form and user dashboard
+   
     if (loginForm && userDashboard) {
         if (isLoggedIn) {
             loginForm.hide();
@@ -73,25 +73,25 @@ function updateUIForLoginStatus() {
         }
     }
     
-    // Update header template to reflect current login status
+   
     const headerTemplate = $$("header_template");
     if (headerTemplate) {
         headerTemplate.refresh();
     }
     
-    // Update user info in top nav
+   
     const userInfo = $$("top_nav_user_info");
     if (userInfo) {
         userInfo.refresh();
     }
     
-    // Refresh user dashboard content
+  
     if (userDashboard && isLoggedIn) {
         userDashboard.refresh();
     }
 }
 
-// Add the CSS styles first
+
 const headerStyles = `
     .modern-header-banner {
         position: relative;
@@ -287,9 +287,210 @@ const headerStyles = `
         margin-right: 10px;
         text-align: center;
     }
+
+    /* iPad Pro and Mobile Responsive Styles */
+    @media screen and (max-width: 1024px) {
+        .header-title {
+            font-size: 2rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+        }
+
+        .user-dashboard {
+            padding: 15px;
+        }
+
+        .dashboard-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-actions {
+            flex-direction: column;
+        }
+
+        .dashboard-btn {
+            margin-bottom: 10px;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .header-title {
+            font-size: 1.8rem;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+        }
+
+        .logo-text {
+            display: none;
+        }
+
+        .user-info {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-details {
+            display: none;
+        }
+
+        .dashboard-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .dashboard-avatar {
+            margin: 0 auto 10px;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .header-title {
+            font-size: 1.5rem;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+        }
+
+        .info-content, .feature-content {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .info-icon-container, .feature-icon-container {
+            margin: 0 auto 15px;
+        }
+    }
+
+    /* iPad Pro (1024x1366) Specific Styles */
+    @media screen and (min-width: 1024px) and (max-width: 1366px) {
+        .header-title {
+            font-size: 2.2rem;
+            line-height: 1.3;
+        }
+        
+        .subtitle {
+            font-size: 1.15rem;
+            line-height: 1.4;
+        }
+
+        .user-dashboard {
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        .dashboard-stats {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .dashboard-actions {
+            flex-direction: row;
+            gap: 15px;
+        }
+
+        .dashboard-btn {
+            padding: 15px;
+            font-size: 15px;
+        }
+
+        .info-content, .feature-content {
+            padding: 25px;
+        }
+
+        .info-icon-container, .feature-icon-container {
+            width: 60px;
+            height: 60px;
+        }
+    }
+
+    /* iPhone 12 Pro (390x844) Specific Styles */
+    @media screen and (max-width: 390px) {
+        .header-title {
+            font-size: 1.4rem;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            line-height: 1.3;
+        }
+
+        .user-dashboard {
+            padding: 12px;
+            min-height: 300px;
+        }
+
+        .dashboard-stats {
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .stat-item {
+            padding: 12px;
+        }
+
+        .stat-number {
+            font-size: 20px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+        }
+
+        .dashboard-actions {
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .dashboard-btn {
+            padding: 10px;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .recent-activity {
+            margin-top: 15px;
+            padding-top: 12px;
+        }
+
+        .activity-title {
+            font-size: 13px;
+        }
+
+        .activity-item {
+            font-size: 12px;
+            padding: 6px 0;
+        }
+
+        .info-content, .feature-content {
+            padding: 15px;
+        }
+
+        .info-icon-container, .feature-icon-container {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .info-title, .feature-title {
+            font-size: 16px;
+        }
+
+        .info-description, .feature-list {
+            font-size: 13px;
+        }
+    }
 `;
 
-// Inject the styles into the page
+
 const styleSheet = document.createElement("style");
 styleSheet.textContent = headerStyles;
 document.head.appendChild(styleSheet);
@@ -300,15 +501,18 @@ export const HomeUI = {
     scroll: false, 
     css: "modern-home-ui",
     rows: [
-        // Top Navigation Bar - Fixed dimensions
+ 
         {
             view: "toolbar",
             id: "top_navigation",
             height: 64,
             css: "modern-top-nav",
+            responsive: true,
+            minHeight:32,
             paddingX: 24,
+            minWidth: 160,
             cols: [
-                // App Logo - Fixed width
+             
                 {
                     view: "template",
                     id: "app_logo",
@@ -321,14 +525,17 @@ export const HomeUI = {
                         </div>
                     `
                 },
-                // Flexible spacer
+             
                 {},
-                // User info section - Fixed width for proper alignment
+           
                 {
                     view: "template",
                     id: "top_nav_user_info",
                     width: 140,
                     height: 20,
+                    responsive: true,
+                    minHeight:10,
+                    minWidth: 70,
                     css: "user-info-container",
                     template: function() {
                         const loggedUser = getLoggedUserData();
@@ -393,6 +600,7 @@ export const HomeUI = {
                             hotkey: "s",
                             css: "webix_info top-nav-btn",
                             tooltip: "Settings",
+                            hotkey: "s",
                             hidden: !isUserLoggedIn(),
                             click: function() {
                                 try {
@@ -440,13 +648,12 @@ export const HomeUI = {
                                 }
                             }
                         },
-                        { width: 16 }  // Right padding
+                        { width: 16 } 
                     ]
                 }
             ]
         },
-        
-        // Header Banner - Fixed height with proper content scaling
+       
         {
             view: "template",
             id: "header_template",
@@ -480,7 +687,7 @@ export const HomeUI = {
             }
         },
 
-        // Main Content Area - Improved layout structure
+       
         {
             view: "scrollview",
             scroll: "y",
@@ -494,12 +701,12 @@ export const HomeUI = {
                         view: "layout",
                         type: "clean",
                         cols: [
-                            // Left Column - Login/Dashboard Cards
+                          
                             {
                                 view: "layout",
                                 width: 360,
                                 rows: [
-                                    // Login Form (shown when not logged in)
+                                   
                                     {
                                         view: "form",
                                         id: "login_form",
@@ -536,6 +743,7 @@ export const HomeUI = {
                                                 view: "button",
                                                 id: "signup_button",
                                                 value: "Sign Up",
+                                                hotkey: "enter",
                                                 icon: "mdi mdi-account-plus",
                                                 css: "webix_secondary btn-modern",
                                                 height: 48,
@@ -566,7 +774,7 @@ export const HomeUI = {
                                             
                                             if (!isLoggedIn || !loggedUser) return "";
                                             
-                                            const userName = loggedUser.firstName || loggedUser.username || loggedUser.first_name || 'User';
+                                            const userName = loggedUser.displayName||loggedUser.firstName || loggedUser.username|| 'User';
                                             const userEmail = loggedUser.email || 'user@example.com';
                                             const userInitials = userName.substring(0, 2).toUpperCase();
                                             const loginDate = new Date().toLocaleDateString();
@@ -647,7 +855,7 @@ export const HomeUI = {
                                                     <div class="info-text">
                                                         <h3 class="info-title">Quick Info</h3>
                                                         <p class="info-description">${isLoggedIn && loggedUser
-                                                            ? `Welcome ${loggedUser.username || loggedUser.firstName}! Access and adjust your security preferences. Manage your account settings and notification preferences from the settings panel.`
+                                                            ? `Welcome ${loggedUser.displayName||loggedUser.firstName || loggedUser.username}! Access and adjust your security preferences. Manage your account settings and notification preferences from the settings panel.`
                                                             : "Log in or sign up to access your personalized dashboard and security settings."}
                                                         </p>
                                                     </div>
@@ -705,23 +913,10 @@ export const HomeUI = {
     },
     adjustLayout: function() {
         const width = window.innerWidth;
+        const height = window.innerHeight;
         
-       
-        if (width < 768) {
-          
-            const logoTemplate = $("app_logo");
-            if (logoTemplate) {
-                logoTemplate.define("width", 160);
-                logoTemplate.refresh();
-            }
-            
-            const userInfo = $("top_nav_user_info");
-            if (userInfo) {
-                userInfo.define("width", 140);
-                userInfo.refresh();
-            }
-        } else if (width < 1024) {
-           
+        // iPad Pro (1024x1366)
+        if (width >= 1024 && width <= 1366) {
             const logoTemplate = $("app_logo");
             if (logoTemplate) {
                 logoTemplate.define("width", 200);
@@ -733,18 +928,57 @@ export const HomeUI = {
                 userInfo.define("width", 160);
                 userInfo.refresh();
             }
-        } else {
-            
+
+            // Adjust header height for iPad Pro
+            const headerTemplate = $$("header_template");
+            if (headerTemplate) {
+                headerTemplate.define("height", 300);
+                headerTemplate.refresh();
+            }
+
+            // Adjust padding for iPad Pro
+            const mainContent = $$("main_content");
+            if (mainContent) {
+                mainContent.define("paddingX", 40);
+                mainContent.define("paddingY", 40);
+                mainContent.refresh();
+            }
+        }
+        
+        // iPhone 12 Pro (390x844)
+        if (width <= 390) {
             const logoTemplate = $("app_logo");
             if (logoTemplate) {
-                logoTemplate.define("width", 240);
+                logoTemplate.define("width", 110);
                 logoTemplate.refresh();
             }
             
             const userInfo = $("top_nav_user_info");
             if (userInfo) {
-                userInfo.define("width", 180);
+                userInfo.define("width", 70);
                 userInfo.refresh();
+            }
+
+            // Adjust header height for iPhone
+            const headerTemplate = $$("header_template");
+            if (headerTemplate) {
+                headerTemplate.define("height", 160);
+                headerTemplate.refresh();
+            }
+
+            // Adjust padding for iPhone
+            const mainContent = $$("main_content");
+            if (mainContent) {
+                mainContent.define("paddingX", 12);
+                mainContent.define("paddingY", 12);
+                mainContent.refresh();
+            }
+
+            // Adjust top navigation height
+            const topNav = $$("top_navigation");
+            if (topNav) {
+                topNav.define("height", 50);
+                topNav.refresh();
             }
         }
     }
